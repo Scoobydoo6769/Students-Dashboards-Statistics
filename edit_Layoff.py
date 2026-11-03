@@ -7,6 +7,12 @@ import platform
 import io
 import os
 import subprocess
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+# กำหนดฟอนต์ภาษาไทยสำหรับ Linux บน Streamlit Cloud
+plt.rcParams['font.family'] = 'Garuda' # หรือใช้ 'Waree'
+plt.rcParams['axes.unicode_minus'] = False
 
 # ฟังก์ชันสำหรับติดตั้งฟอนต์ภาษาไทยบน Streamlit Cloud (Linux) อัตโนมัติ
 @st.cache_resource
