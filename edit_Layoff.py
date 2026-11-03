@@ -5,6 +5,30 @@ import matplotlib.pyplot as plt
 import os
 import platform
 import io
+import os
+import subprocess
+
+# ฟังก์ชันสำหรับติดตั้งฟอนต์ภาษาไทยบน Streamlit Cloud (Linux) อัตโนมัติ
+@st.cache_resource
+def install_thai_fonts():
+    # ตรวจสอบว่าเป็นระบบ Linux บนคลาวด์หรือไม่
+    if os.name != 'nt' and not os.path.exists('/usr/share/fonts/truetype/tlwg'):
+        try:
+            subprocess.run(['apt-get', 'update'], check=True)
+            subprocess.run(['apt-get', 'install', '-y', 'fonts-tlwg-waree', 'fonts-thai-tlwg'], check=True)
+            # เคลียร์แคชฟอนต์ของ matplotlib
+            import matplotlib.font_manager as fm
+            fm._rebuild() if hasattr(fm, '_rebuild') else None
+        except Exception as e:
+            print("Font installation skipped or failed:", e)
+
+# เรียกใช้งานฟังก์ชันติดตั้งฟอนต์
+install_thai_fonts()
+
+# กำหนดให้ Matplotlib ใช้ฟอนต์ภาษาไทย (เช่น Waree) เป็นค่าเริ่มต้น
+import matplotlib.pyplot as plt
+plt.rcParams['font.family'] = 'Waree' # หรือใช้ 'DejaVu Sans' ถ้าฟอนต์ไทยไม่ขึ้น
+plt.rcParams['axes.unicode_minus'] = False # แก้ไขเครื่องหมายลบติดลบให้แสดงผลปกติ
 
 # ---------------------------------------------------------
 # การตั้งค่าหน้าเว็บ & ฟอนต์ภาษาไทยสำหรับ Matplotlib
